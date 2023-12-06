@@ -2,7 +2,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class AoC5 {
 
@@ -11,13 +10,13 @@ public class AoC5 {
         List<Long> seeds = Arrays.stream(lines.get(0).split(":")[1].trim().split(" ")).map(Long::parseLong).toList();
         lines = lines.subList(1, lines.size());
 
-//        System.out.println("Part one " + getLocations(seeds, lines).stream().sorted().toList().get(0));
+        System.out.println("Part one " + getLowest(seeds, lines));
 
         Long lowestTotal = 999999999999L;
         for (int i = 0; i < seeds.size(); i = i + 2) {
             Long range = seeds.get(i + 1);
+            System.out.println(range);
             for (long j = 0; j < range; j++) {
-                System.out.println("Progress: " + ((double) j) / ((double) range));
                 Long lowest = getLowest(List.of(seeds.get(i) + j), lines);
                 if (lowest < lowestTotal) lowestTotal = lowest;
             }
@@ -26,8 +25,8 @@ public class AoC5 {
     }
 
     public static Long getLowest(List<Long> seeds, List<String> lines) {
-        Boolean skip = true;
-        Long lowest = 9999999999999L;
+        boolean skip = true;
+        long lowest = 9999999999999L;
         long dest = 0;
         for (Long seed: seeds) {
             dest = seed;
