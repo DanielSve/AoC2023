@@ -5,45 +5,41 @@ import java.util.*;
 
 public class AoC5 {
 
+    public static List<List<Long>> map = new ArrayList<>();
     public static void main(String[] args) throws IOException {
         List<String> lines = Files.lines(Path.of("resources/five")).filter(l -> !l.contains("map")).toList();
         List<Long> seeds = Arrays.stream(lines.get(0).split(":")[1].trim().split(" ")).map(Long::parseLong).toList();
         lines = lines.subList(1, lines.size());
+        lines.forEach(l -> map.add(l.isEmpty() ? new ArrayList<>() : Arrays.stream(l.split(" ")).map(Long::parseLong).toList()));
 
-        System.out.println("Part one " + getLowest(seeds, lines));
+        System.out.println("Part one " + seeds.stream().mapToLong(AoC5::getLocation).min().getAsLong());
 
-        Long lowestTotal = 999999999999L;
+        Long lowest = 999999999999L;
         for (int i = 0; i < seeds.size(); i = i + 2) {
             Long range = seeds.get(i + 1);
-            System.out.println(range);
             for (long j = 0; j < range; j++) {
-                Long lowest = getLowest(List.of(seeds.get(i) + j), lines);
-                if (lowest < lowestTotal) lowestTotal = lowest;
+                Long seed = seeds.get(i) + j;
+                long location = getLocation(seed);
+                if (location < lowest) lowest = location;
             }
         }
-        System.out.println("Part two: " + lowestTotal);
+        System.out.println("Part two: " + lowest);
     }
 
-    public static Long getLowest(List<Long> seeds, List<String> lines) {
+    private static Long getLocation(Long seed) {
+        long location = seed;
         boolean skip = true;
-        long lowest = 9999999999999L;
-        long dest = 0;
-        for (Long seed: seeds) {
-            dest = seed;
-            for (String line: lines) {
-                if (line.isEmpty())  {
-                    skip = false;
-                    continue;
-                }
-                if (skip) continue;
-                List<Long> map = Arrays.stream(line.split(" ")).map(Long::parseLong).toList();
-                if (dest >= map.get(1) && dest <= map.get(1) + map.get(2) -1) {
-                    dest = dest - map.get(1) + map.get(0);
-                    skip = true;
-                }
+        for (List<Long> l: map) {
+            if (l.isEmpty())  {
+                skip = false;
+                continue;
             }
-            if ( dest < lowest) lowest = dest;
+            if (skip) continue;
+            if (location >= l.get(1) && location <= l.get(1) + l.get(2) -1) {
+                location = location - l.get(1) + l.get(0);
+                skip = true;
+            }
         }
-        return lowest;
+        return location;
     }
 }
