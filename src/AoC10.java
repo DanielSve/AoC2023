@@ -86,7 +86,7 @@ public class AoC10 {
     }
 
     private static void checkDirection(int i, int j, String direction, int round) {
-        if(i > 0 && direction.equals("rightup") || direction.equals("leftup")) {
+        if(i > 0 && direction.contains("up") || direction.equals("up")) {
             if (grid[i - 1][j] == '.' || (round == 2 && ".JL7-|F".contains(grid[i - 1][j] + ""))) {
                 grid[i - 1][j] = '*';
             }
@@ -94,20 +94,14 @@ public class AoC10 {
                 if (j < grid[0].length - 1 && (grid[i - 1][j + 1] == '.' || round == 2 && ".JL7-|F".contains(grid[i - 1][j + 1] + ""))) {
                     grid[i - 1][j + 1] = '*';
                 }
-                if (j < grid[0].length - 1 && (grid[i][j + 1] == '.' || round == 2 && ".JL7-|F".contains(grid[i][j + 1] + ""))) {
-                    grid[i][j + 1] = '*';
-                }
             }
             if (direction.equals("leftup")) {
                 if (j > 0 && (grid[i-1][j-1] == '.' || round == 2 && ".JL7-|F".contains(grid[i-1][j-1] +""))) {
                     grid[i-1][j-1] = '*';
                 }
-                if (j > 0 && grid[i][j-1] == '.' || round == 2 && ".JL7-|F".contains(grid[i][j-1] +"")) {
-                    grid[i][j-1] = '*';
-                }
             }
         }
-        if (i < grid.length-1 && direction.equals("leftdown") || direction.equals("rightdown")) {
+        if (i < grid.length-1 && direction.contains("down") || direction.equals("down")) {
             if (grid[i+1][j] == '.' || round == 2 && ".JL7-|F".contains(grid[i+1][j] +"")) {
                 grid[i+1][j] = '*';
             }
@@ -115,24 +109,12 @@ public class AoC10 {
                 if (j > 0 && grid[i+1][j-1] == '.' || round == 2 && ".JL7-|F".contains(grid[i+1][j-1] +"")) {
                     grid[i+1][j-1] = '*';
                 }
-                if (j > 0 && grid[i][j-1] == '.' || round == 2 && ".JL7-|F".contains(grid[i][j-1] +"")) {
-                    grid[i][j-1] = '*';
-                }
             }
             if (direction.equals("rightdown")) {
                 if (j < grid[0].length -1 && grid[i+1][j+1] == '.' || round == 2 && ".JL7-|F".contains(grid[i+1][j+1] +"")) {
                     grid[i+1][j+1] = '*';
                 }
-                if (j < grid[0].length -1 && grid[i][j+1] == '.' || round == 2 && ".JL7-|F".contains(grid[i][j+1] +"")) {
-                    grid[i][j+1] = '*';
-                }
             }
-        }
-        if (i > 0 && direction.contains("up") && ((grid[i-1][j] == '.') || (round == 2 && ".JL7-|F".contains(grid[i-1][j] + "")))) {
-            grid[i-1][j] = '*';
-        }
-        if (i < grid.length-1 && direction.contains("down") && ((grid[i+1][j] == '.') || (round == 2 && ".JL7-|F".contains(grid[i+1][j] + "")))) {
-            grid[i+1][j] = '*';
         }
         if (j > 0 && direction.contains("left") && ((grid[i][j-1] == '.') || (round == 2 && ".JL7-|F".contains(grid[i][j-1] + "")))) {
             grid[i][j-1] = '*';
